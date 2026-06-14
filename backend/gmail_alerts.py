@@ -28,7 +28,8 @@ def _send(subject: str, html_body: str, to: str = None):
         msg["To"]      = recipient
         msg.attach(MIMEText(html_body, "html"))
 
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+        with smtplib.SMTP("smtp.gmail.com", 587) as server:
+            server.starttls()
             server.login(SENDER, APP_PASSWORD)
             server.sendmail(SENDER, recipient, msg.as_string())
         print(f"[Gmail] Alert sent → {recipient}")
