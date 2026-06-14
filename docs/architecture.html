@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Lead Gen – Architecture Diagram</title>
+<style>
+  body { font-family: Arial, sans-serif; background: #0f172a; color: #e2e8f0; margin: 0; padding: 20px; }
+  h1 { text-align: center; color: #60a5fa; margin-bottom: 30px; }
+  .diagram { max-width: 900px; margin: 0 auto; }
+
+  .row { display: flex; gap: 12px; justify-content: center; margin-bottom: 12px; }
+  .box {
+    background: #1e293b; border: 2px solid #334155; border-radius: 10px;
+    padding: 12px 16px; text-align: center; font-size: 13px;
+    min-width: 120px;
+  }
+  .box.orange { border-color: #fb923c; background: #431407; }
+  .box.blue   { border-color: #60a5fa; background: #1e3a5f; }
+  .box.green  { border-color: #4ade80; background: #14532d; }
+  .box.purple { border-color: #a78bfa; background: #2e1065; }
+  .box.red    { border-color: #f87171; background: #450a0a; }
+  .box.yellow { border-color: #fbbf24; background: #451a03; }
+  .box .icon  { font-size: 24px; display: block; margin-bottom: 4px; }
+  .box .label { font-weight: bold; font-size: 12px; }
+  .box .sub   { font-size: 10px; color: #94a3b8; margin-top: 3px; }
+
+  .arrow { text-align: center; color: #475569; font-size: 20px; margin: 4px 0; }
+
+  .pipeline {
+    background: #1e293b; border: 2px solid #3b82f6; border-radius: 14px;
+    padding: 16px; margin: 16px 0;
+  }
+  .pipeline h3 { color: #60a5fa; margin: 0 0 12px; text-align: center; }
+  .steps { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center; }
+  .step {
+    background: #0f172a; border: 1px solid #475569; border-radius: 8px;
+    padding: 8px 12px; font-size: 11px; text-align: center;
+  }
+  .step .num { color: #60a5fa; font-weight: bold; display: block; }
+  .arr { color: #475569; font-size: 18px; }
+</style>
+</head>
+<body>
+<h1>🤖 AI Lead Generation System – Architecture</h1>
+<div class="diagram">
+
+  <!-- Inbound Channels -->
+  <div class="row">
+    <div class="box orange"><span class="icon">📘</span><div class="label">Facebook</div><div class="sub">Messenger Webhook</div></div>
+    <div class="box orange"><span class="icon">📸</span><div class="label">Instagram</div><div class="sub">DM + Comments</div></div>
+    <div class="box orange"><span class="icon">🤖</span><div class="label">Reddit</div><div class="sub">PRAW Stream</div></div>
+    <div class="box orange"><span class="icon">🌐</span><div class="label">Website</div><div class="sub">API Endpoint</div></div>
+  </div>
+
+  <div class="arrow">⬇⬇⬇⬇</div>
+
+  <!-- Flask Backend -->
+  <div class="row">
+    <div class="box blue" style="min-width:400px;">
+      <span class="icon">🐍</span>
+      <div class="label">Flask Backend (app.py)</div>
+      <div class="sub">POST /webhook • GET /api/* • POST /api/simulate</div>
+    </div>
+  </div>
+
+  <div class="arrow">⬇</div>
+
+  <!-- Processing Pipeline -->
+  <div class="pipeline">
+    <h3>⚙️ Lead Processing Pipeline</h3>
+    <div class="steps">
+      <div class="step"><span class="num">1</span>Parse<br>Message</div>
+      <span class="arr">→</span>
+      <div class="step"><span class="num">2</span>Gemini AI<br>Classify</div>
+      <span class="arr">→</span>
+      <div class="step"><span class="num">3</span>MySQL<br>Upsert</div>
+      <span class="arr">→</span>
+      <div class="step"><span class="num">4</span>Escalation<br>Check</div>
+      <span class="arr">→</span>
+      <div class="step"><span class="num">5</span>AI<br>Reply</div>
+      <span class="arr">→</span>
+      <div class="step"><span class="num">6</span>Send via<br>Platform API</div>
+      <span class="arr">→</span>
+      <div class="step"><span class="num">7</span>Update<br>Summary</div>
+    </div>
+  </div>
+
+  <div class="arrow">⬇</div>
+
+  <!-- Core Modules -->
+  <div class="row">
+    <div class="box purple"><span class="icon">🧠</span><div class="label">ai_engine.py</div><div class="sub">Gemini 1.5 Flash<br>Classify • Reply • Summarise</div></div>
+    <div class="box green"><span class="icon">🗄️</span><div class="label">database.py</div><div class="sub">MySQL CRM<br>leads • messages • escalations</div></div>
+    <div class="box yellow"><span class="icon">📧</span><div class="label">gmail_alerts.py</div><div class="sub">SMTP<br>Hot lead • Escalation • Daily report</div></div>
+    <div class="box red"><span class="icon">📱</span><div class="label">meta_webhook.py</div><div class="sub">Graph API<br>Send FB + IG replies</div></div>
+  </div>
+
+  <div class="arrow">⬇</div>
+
+  <!-- Frontend -->
+  <div class="row">
+    <div class="box blue" style="min-width:500px;">
+      <span class="icon">🖥️</span>
+      <div class="label">Gradio Dashboard (frontend/dashboard.py)</div>
+      <div class="sub">Simulate • CRM View • Lead Detail • Stats • Manual Entry</div>
+    </div>
+  </div>
+
+  <!-- MySQL Schema -->
+  <div class="pipeline" style="margin-top:24px;">
+    <h3>🗄️ MySQL CRM Schema</h3>
+    <div class="row">
+      <div class="box green" style="font-size:11px;min-width:200px;">
+        <div class="label">leads</div>
+        <div class="sub">id · name · platform<br>contact_details · interest_level<br>conversation_summary · escalated</div>
+      </div>
+      <div class="box green" style="font-size:11px;min-width:200px;">
+        <div class="label">messages</div>
+        <div class="sub">id · lead_id · direction<br>platform · content<br>created_at</div>
+      </div>
+      <div class="box green" style="font-size:11px;min-width:200px;">
+        <div class="label">escalations</div>
+        <div class="sub">id · lead_id<br>reason<br>notified_at</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
