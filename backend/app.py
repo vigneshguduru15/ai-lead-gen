@@ -10,11 +10,11 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 
 # Local modules
-import database as db
-import ai_engine as ai
-import gmail_alerts as gmail
-import meta_webhook as meta
-import reddit_monitor as reddit
+from backend import database as db
+from backend import ai_engine as ai
+from backend import gmail_alerts as gmail
+from backend import meta_webhook as meta
+from backend import reddit_monitor as reddit
 
 load_dotenv()
 
