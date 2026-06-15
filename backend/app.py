@@ -68,12 +68,18 @@ def process_incoming_message(sender_id: str, platform: str, text: str):
         )
         db.mark_escalated(lead_id, esc_reason or "Hot lead auto-escalation")
         lead = db.get_lead(lead_id)
-        gmail.send_escalation_alert(lead, esc_reason or "Hot lead")
+        try:
+            gmail.send_escalation_alert(lead, esc_reason or "Hot lead")
+        except Exception as e:
+            print(f"[Gmail] Error: {e}")
     else:
         reply = ai.generate_reply(text, interest, platform, history)
 
     # ── 5. Send reply via platform ───────────────────────────
-    meta.send_reply(sender_id, reply, platform)
+    try:
+        meta.send_reply(sender_id, reply, platform)
+    except Exception as e:
+        print(f"[Meta] Reply error: {e}")
     db.save_message(lead_id, "outbound", platform, reply)
 
     # ── 6. Update summary ────────────────────────────────────
